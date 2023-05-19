@@ -1,6 +1,6 @@
 import VanCard from "./VanCard";
 
-import "./VanList.scss";
+import "./VanList.css";
 
 const VanList = ({ vans }) => {
   return (

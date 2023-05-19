@@ -4,7 +4,7 @@ import { AboutHeaderImage } from "../assets";
 
 const About = () => {
   return (
-    <div className={`main flex flex-column`}>
+    <div className="sticky-footer flex-col">
       <header>
         <img
           style={{

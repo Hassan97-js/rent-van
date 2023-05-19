@@ -6,7 +6,7 @@ const Root = () => {
   return (
     <>
       <Header />
-      <main className="main flex">
+      <main className="sticky-footer">
         <Outlet />
       </main>
       <Footer />

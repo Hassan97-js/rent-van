@@ -1,3 +1,23 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+  .flex-col-center {
+    @apply flex flex-col justify-center items-center min-h-screen w-screen;
+  }
+
+  .sticky-footer {
+    @apply flex min-h-[calc(100vh_-_185.6px)];
+  }
+  .sticky-footer > *:nth-child(2) {
+    @apply flex-1;
+  }
+  .sticky-footer > *:nth-child(1) {
+    @apply w-full;
+  }
+}
+
 html {
   -webkit-text-size-adjust: 100%;
   overflow-x: hidden;
@@ -25,17 +45,6 @@ h4,
 h5 {
   font-weight: 700;
   line-height: 1.1;
-}
-
-a:link,
-a:visited {
-  color: currentColor;
-  text-decoration: none;
-}
-
-a:hover,
-a:active {
-  color: currentColor;
 }
 
 button {
@@ -104,18 +113,6 @@ button {
 .van-type--luxury:visited {
   background-color: #161616;
   color: #ffead0;
-}
-
-.main {
-  min-height: calc(100vh - 185.6px);
-}
-
-.main > *:nth-child(2) {
-  flex: 1;
-}
-
-.main > *:nth-child(1) {
-  width: 100%;
 }
 
 .active:link,

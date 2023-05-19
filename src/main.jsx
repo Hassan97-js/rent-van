@@ -16,6 +16,11 @@ const root = createRoot(document.getElementById("root"));
 
 root.render(
   <StrictMode>
-    <RouterProvider router={router} fallbackElement={<h1>Loading...</h1>} />
+    <RouterProvider
+      router={router}
+      fallbackElement={
+        <h1 className="flex-col-center text-4xl text-gray-700">Loading...</h1>
+      }
+    />
   </StrictMode>
 );
