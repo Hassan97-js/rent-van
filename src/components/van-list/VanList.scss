@@ -1,0 +1,16 @@
+.vanlist > * {
+  flex: 1 0 25rem;
+  padding: 1rem;
+}
+
+@media (max-width: 48em) {
+  .vanlist > * {
+    width: 50%;
+  }
+}
+
+@media (max-width: 30em) {
+  .vanlist > * {
+    width: 100%;
+  }
+}
