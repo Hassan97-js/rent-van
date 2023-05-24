@@ -1,5 +1,3 @@
-import { ErrorElement } from "../../components";
-
 import {
   Root,
   HostLayout,
@@ -21,6 +19,10 @@ import {
   hostVanLoader
 } from "../../routes";
 
+import { ErrorElement } from "../../components";
+
+import { requireAuth } from "../../utils";
+
 const routerConfig = [
   {
     path: "/",
@@ -37,7 +39,11 @@ const routerConfig = [
       },
       {
         path: "login",
-        element: <Login />
+        element: <Login />,
+        loader: ({ request }) => {
+          const message = new URL(request.url).searchParams.get("message");
+          return { message };
+        }
       },
       {
         path: "vans",
@@ -57,21 +63,21 @@ const routerConfig = [
             index: true,
             element: <Dashboard />,
             loader: async () => {
-              return null;
+              return await requireAuth();
             }
           },
           {
             path: "income",
             element: <Income />,
             loader: async () => {
-              return null;
+              return await requireAuth();
             }
           },
           {
             path: "reviews",
             element: <Reviews />,
             loader: async () => {
-              return null;
+              return await requireAuth();
             }
           },
           {

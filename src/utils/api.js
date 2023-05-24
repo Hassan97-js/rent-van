@@ -1,7 +1,7 @@
 const getVans = async (id) => {
   try {
     const url = id ? `/api/vans/${id}` : "/api/vans";
-    
+
     const response = await fetch(url);
 
     if (!response.ok) {
@@ -39,4 +39,23 @@ const getHostVans = async (id) => {
   }
 };
 
-export { getVans, getHostVans };
+const loginUser = async (creds) => {
+  const res = await fetch("/api/login", {
+    method: "POST",
+    body: JSON.stringify(creds)
+  });
+
+  const data = await res.json();
+
+  if (!res.ok) {
+    throw {
+      message: data.message,
+      statusText: res.statusText,
+      status: res.status
+    };
+  }
+
+  return data;
+};
+
+export { getVans, getHostVans, loginUser };

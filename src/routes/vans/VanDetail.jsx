@@ -1,28 +1,30 @@
-import { useLocation, Link, useLoaderData } from "react-router-dom";
+import { Link, useLoaderData } from "react-router-dom";
 
 import { Button, Tag } from "../../components";
 
 import { BackArrow } from "../../assets";
 
 const VanDetail = () => {
-  const location = useLocation()
+  // const location = useLocation();
   const { vans: van } = useLoaderData();
 
-  const search = location.state?.search || "";
-  const vanType = location.state?.type || "all";
+  // const search = location.state?.search || "";
+  // const vanType = location.state?.type || "all";
 
+  // console.log(search, vanType);
 
-  // const vanType = new URLSearchParams(search).get("type");
+  // const vanType = new URLSearchParams(location.state?.search).get("type");
 
   return (
     <div className="container flex flex-column items-center">
       <div className="van-detail">
         <Link
-          to={`..${search}`}
+          // to={`..${location.state?.search}`}
+          to={".."}
           relative="path"
           className="backarrowlink mb-10">
           <img src={BackArrow} alt="Back Arrow" />
-          Back to {vanType} vans
+          Back to all vans
         </Link>
 
         <div>

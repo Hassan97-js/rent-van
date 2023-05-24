@@ -1,4 +1,4 @@
-import { getVans, getHostVans } from "./api";
+import { getVans, getHostVans, loginUser } from "./api";
 import { requireAuth } from "./auth";
 
-export { getVans, getHostVans, requireAuth };
+export { getVans, getHostVans, loginUser, requireAuth };

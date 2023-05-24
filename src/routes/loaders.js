@@ -1,7 +1,7 @@
-import { getVans, getHostVans } from "../utils";
+import { getVans, getHostVans, requireAuth } from "../utils";
 
 const hostVanLoader = async ({ params }) => {
-  // await requireAuth();
+  await requireAuth();
 
   // fetch logic here after auth
   return await getHostVans(params.id);
