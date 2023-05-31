@@ -40,18 +40,18 @@ const getHostVans = async (id) => {
 };
 
 const loginUser = async (creds) => {
-  const res = await fetch("/api/login", {
+  const response = await fetch("/api/login", {
     method: "POST",
     body: JSON.stringify(creds)
   });
 
-  const data = await res.json();
+  const data = await response.json();
 
-  if (!res.ok) {
+  if (!response.ok) {
     throw {
       message: data.message,
-      statusText: res.statusText,
-      status: res.status
+      statusText: response.statusText,
+      status: response.status
     };
   }
 

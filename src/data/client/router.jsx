@@ -1,3 +1,5 @@
+import { redirect } from "react-router-dom";
+
 import {
   Root,
   HostLayout,
@@ -16,7 +18,8 @@ import {
   HostVanPhotos,
   HostVanPricing,
   vansLoader,
-  hostVanLoader
+  hostVanLoader,
+  submitLoginFormAction
 } from "../../routes";
 
 import { ErrorElement } from "../../components";
@@ -28,6 +31,11 @@ const routerConfig = [
     path: "/",
     element: <Root />,
     errorElement: <ErrorElement />,
+    loader: () => {
+      const loggedIn = Boolean(localStorage.getItem("loggedIn"));
+
+      return { loggedIn };
+    },
     children: [
       {
         index: true,
@@ -41,9 +49,16 @@ const routerConfig = [
         path: "login",
         element: <Login />,
         loader: ({ request }) => {
+          const loggedIn = Boolean(localStorage.getItem("loggedIn"));
+
+          if (loggedIn) {
+            return redirect("/host");
+          }
+
           const message = new URL(request.url).searchParams.get("message");
           return { message };
-        }
+        },
+        action: submitLoginFormAction
       },
       {
         path: "vans",
@@ -62,22 +77,22 @@ const routerConfig = [
           {
             index: true,
             element: <Dashboard />,
-            loader: async () => {
-              return await requireAuth();
+            loader: async ({ request }) => {
+              return await requireAuth(request);
             }
           },
           {
             path: "income",
             element: <Income />,
-            loader: async () => {
-              return await requireAuth();
+            loader: async ({ request }) => {
+              return await requireAuth(request);
             }
           },
           {
             path: "reviews",
             element: <Reviews />,
-            loader: async () => {
-              return await requireAuth();
+            loader: async ({ request }) => {
+              return await requireAuth(request);
             }
           },
           {

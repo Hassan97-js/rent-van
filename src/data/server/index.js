@@ -84,7 +84,7 @@ createServer({
   routes() {
     this.namespace = "api";
     this.logging = false;
-    // this.timing = 3000;
+    this.timing = 1000;
 
     // (schema, request)
     this.get("/vans", (schema) => {

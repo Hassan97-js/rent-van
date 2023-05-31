@@ -1,8 +1,8 @@
-import { useSearchParams, useLoaderData } from "react-router-dom";
+import { useSearchParams, useLoaderData, Await } from "react-router-dom";
 
 import { VanList, Button } from "../../components";
 
-const Vans = () => {
+function Vans() {
   /* Constants */
   const CLASSES = {
     VAN: {
@@ -16,7 +16,10 @@ const Vans = () => {
     }
   };
 
-  const { vans } = useLoaderData();
+  const vansPromise = useLoaderData();
+
+  // console.log(vansPromise);
+
   const [searchParams, setSearchParams] = useSearchParams();
 
   /* Utilities */
@@ -53,15 +56,6 @@ const Vans = () => {
 
   /* Render */
   const typeFilter = searchParams.get("type");
-
-  const displayedVans = typeFilter
-    ? vans.filter((van) => {
-        const vanType = van.type.trim().toLowerCase();
-        const type = typeFilter.trim().toLowerCase();
-
-        return vanType === type;
-      })
-    : vans;
 
   const {
     VAN: {
@@ -105,9 +99,22 @@ const Vans = () => {
         </div>
       </header>
 
-      {displayedVans && displayedVans.length > 0 && <VanList vans={displayedVans} />}
+      <Await resolve={vansPromise.vans}>
+        {(loadedData) => {
+          const vans = typeFilter
+            ? loadedData.vans.filter((van) => {
+                const vanType = van.type.trim().toLowerCase();
+                const type = typeFilter.trim().toLowerCase();
+
+                return vanType === type;
+              })
+            : loadedData.vans;
+
+          return <VanList vans={vans} />;
+        }}
+      </Await>
     </div>
   );
-};
+}
 
 export default Vans;

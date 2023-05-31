@@ -4,7 +4,7 @@ import { Logo } from "../../assets";
 
 import "./Header.css";
 
-const Header = () => {
+const Header = ({ isLoggedIn }) => {
   const setIsActive = ({ isActive }) => {
     return isActive ? "active" : "";
   };
@@ -34,9 +34,15 @@ const Header = () => {
           </li>
 
           <li>
-            <NavLink className={setIsActive} to="/login">
-              Login
-            </NavLink>
+            {!isLoggedIn ? (
+              <NavLink className={setIsActive} to="/login">
+                Login
+              </NavLink>
+            ) : (
+              <NavLink className={setIsActive} to="/logout">
+                Logout
+              </NavLink>
+            )}
           </li>
         </ul>
       </nav>

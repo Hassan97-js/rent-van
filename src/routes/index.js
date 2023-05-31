@@ -18,6 +18,7 @@ import HostVanPhotos from "./host/HostVanPhotos";
 import HostVanPricing from "./host/HostVanPricing";
 
 import { vansLoader, hostVanLoader } from "./loaders";
+import { submitLoginFormAction } from "./actions";
 
 export {
   Root,
@@ -38,5 +39,6 @@ export {
   HostVanPhotos,
   HostVanPricing,
   hostVanLoader,
-  vansLoader
+  vansLoader,
+  submitLoginFormAction
 };
