@@ -61,7 +61,8 @@ button {
 }
 
 .van-detail {
-  max-width: 31.25rem;
+  width: 31.25rem;
+  /* max-width: 32rem; */
 }
 
 .van-type {

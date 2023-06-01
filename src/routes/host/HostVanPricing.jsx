@@ -1,7 +1,7 @@
-import { useLoaderData } from "react-router-dom";
+import { useOutletContext } from "react-router-dom";
 
 const HostVanPricing = () => {
-  const { vans: van } = useLoaderData();
+  const { van } = useOutletContext();
 
   return (
     <p className="text-3xl mb-6">

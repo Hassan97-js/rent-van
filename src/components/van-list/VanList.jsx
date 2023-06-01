@@ -3,7 +3,6 @@ import VanCard from "./VanCard";
 import "./VanList.css";
 
 const VanList = ({ vans }) => {
-  console.log(vans);
   return (
     <section className="vanlist flex flex-wrap">
       {vans.map((van) => {

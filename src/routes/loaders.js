@@ -1,17 +1,23 @@
 import { defer } from "react-router-dom";
 
-import { getVans, getHostVans, requireAuth } from "../utils";
+import { getVans, getVan, getHostVans, requireAuth } from "../utils";
 
-const hostVanLoader = async ({ request, params }) => {
+const hostVansLoader = async ({ request }) => {
   await requireAuth(request);
 
   // fetch logic here after auth
-  return await getHostVans(params.id);
+  const hostVanPromise = getHostVans();
+  return defer({ hostVans: hostVanPromise });
 };
 
-const vansLoader = ({ params }) => {
-  const vansPromise = getVans(params.id);
+const vansLoader = () => {
+  const vansPromise = getVans();
   return defer({ vans: vansPromise });
 };
 
-export { vansLoader, hostVanLoader };
+const vanLoader = ({ params }) => {
+  const vanPromise = getVan(params.id);
+  return defer({ van: vanPromise });
+};
+
+export { vansLoader, vanLoader, hostVansLoader };

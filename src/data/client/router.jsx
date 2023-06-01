@@ -18,8 +18,9 @@ import {
   HostVanPhotos,
   HostVanPricing,
   vansLoader,
-  hostVanLoader,
-  submitLoginFormAction
+  hostVansLoader,
+  submitLoginFormAction,
+  vanLoader
 } from "../../routes";
 
 import { ErrorElement } from "../../components";
@@ -63,16 +64,19 @@ const routerConfig = [
       {
         path: "vans",
         element: <Vans />,
+        errorElement: <ErrorElement />,
         loader: vansLoader
       },
       {
         path: "vans/:id",
         element: <VanDetail />,
-        loader: vansLoader
+        errorElement: <ErrorElement />,
+        loader: vanLoader
       },
       {
         path: "host",
         element: <HostLayout />,
+        errorElement: <ErrorElement />,
         children: [
           {
             index: true,
@@ -98,27 +102,26 @@ const routerConfig = [
           {
             path: "vans",
             element: <HostVans />,
-            loader: hostVanLoader
+            errorElement: <ErrorElement />,
+            loader: hostVansLoader
           },
           {
             path: "vans/:id",
             element: <HostVanLayout />,
-            loader: hostVanLoader,
+            errorElement: <ErrorElement />,
+            loader: vanLoader,
             children: [
               {
                 index: true,
-                element: <HostVanInfo />,
-                loader: hostVanLoader
+                element: <HostVanInfo />
               },
               {
                 path: "pricing",
-                element: <HostVanPricing />,
-                loader: hostVanLoader
+                element: <HostVanPricing />
               },
               {
                 path: "photos",
-                element: <HostVanPhotos />,
-                loader: hostVanLoader
+                element: <HostVanPhotos />
               }
             ]
           }

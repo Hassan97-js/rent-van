@@ -4,8 +4,6 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 import { routerConfig } from "./data";
 
-import "./data/server";
-
 import "./styles/reset.css";
 import "./styles/main.css";
 import "./styles/utils.css";

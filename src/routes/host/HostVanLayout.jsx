@@ -1,4 +1,5 @@
-import { Link, Outlet, useLoaderData } from "react-router-dom";
+import { Suspense } from "react";
+import { Await, Link, Outlet, useLoaderData } from "react-router-dom";
 
 import Tag from "../../components/generic/Tag";
 import HostVanNav from "../../components/HostVanNav";
@@ -6,7 +7,7 @@ import HostVanNav from "../../components/HostVanNav";
 import { BackArrow } from "../../assets";
 
 const HostVanLayout = () => {
-  const { vans: van } = useLoaderData();
+  const hostVansPromise = useLoaderData();
 
   const capitalizeWord = (string) => {
     if (!string) {
@@ -16,17 +17,12 @@ const HostVanLayout = () => {
     return string[0].toUpperCase() + string.slice(1);
   };
 
-  const vanType = van && capitalizeWord(van.type);
+  const renderHostVans = (van) => {
+    const vanType = van && capitalizeWord(van.type);
 
-  return (
-    <div className="mx-auto">
-      <Link relative="path" to=".." className="backarrowlink mb-10">
-        <img src={BackArrow} alt="Back Arrow" />
-        Back to all vans
-      </Link>
-
-      <div className="py-4 px-4 rounded fs-5 bg-white" style={{ maxWidth: 700 }}>
-        <div className="mx-auto" style={{ maxWidth: 700 }}>
+    return (
+      <div className="w-[700px] py-4 px-4 rounded fs-5 bg-white">
+        <div className="w-full mx-auto" style={{ maxWidth: 700 }}>
           <div>
             <div className="flex flex-wrap gap-8">
               <div style={{ flex: "1 1 200px" }}>
@@ -56,8 +52,22 @@ const HostVanLayout = () => {
           </div>
         </div>
 
-        <Outlet />
+        <Outlet context={{ van }} />
       </div>
+    );
+  };
+
+  return (
+    <div className="w-[700px] mx-auto">
+      <Link relative="path" to=".." className="backarrowlink mb-10">
+        <img src={BackArrow} alt="Back Arrow" />
+        Back to all vans
+      </Link>
+
+      <Suspense
+        fallback={<h1 className="text-3xl text-gray-800">Loading van...</h1>}>
+        <Await resolve={hostVansPromise.van}>{renderHostVans}</Await>
+      </Suspense>
     </div>
   );
 };

@@ -1,4 +1,5 @@
-import { Link, useLoaderData } from "react-router-dom";
+import { Suspense } from "react";
+import { Await, Link, useLoaderData } from "react-router-dom";
 
 import { Button, Tag } from "../../components";
 
@@ -6,7 +7,7 @@ import { BackArrow } from "../../assets";
 
 const VanDetail = () => {
   // const location = useLocation();
-  const { vans: van } = useLoaderData();
+  const vanPromise = useLoaderData();
 
   // const search = location.state?.search || "";
   // const vanType = location.state?.type || "all";
@@ -14,6 +15,30 @@ const VanDetail = () => {
   // console.log(search, vanType);
 
   // const vanType = new URLSearchParams(location.state?.search).get("type");
+
+  const renderVanElement = (van) => {
+    return (
+      <div>
+        <img src={van.imageUrl} className="mb-8" alt={van.description} />
+
+        <div>
+          <Tag className={`van-type van-type--${van.type} mb-4`}>{van.type}</Tag>
+
+          <h1 className="heading-xl mb-2 fw-700">{van.name}</h1>
+          <p className="text-3xl mb-6">
+            <span className="fw-600">${van.price}</span>/day
+          </p>
+          <p className="mb-8">{van.description}</p>
+
+          <Button
+            type="button"
+            className="fw-700 bg-orange clr-white w-100 radius-md p-y-4 text-xl">
+            Rent this van
+          </Button>
+        </div>
+      </div>
+    );
+  };
 
   return (
     <div className="container flex flex-column items-center">
@@ -27,25 +52,10 @@ const VanDetail = () => {
           Back to all vans
         </Link>
 
-        <div>
-          <img src={van.imageUrl} className="mb-8" alt={van.description} />
-
-          <div>
-            <Tag className={`van-type van-type--${van.type} mb-4`}>{van.type}</Tag>
-
-            <h1 className="heading-xl mb-2 fw-700">{van.name}</h1>
-            <p className="text-3xl mb-6">
-              <span className="fw-600">${van.price}</span>/day
-            </p>
-            <p className="mb-8">{van.description}</p>
-
-            <Button
-              type="button"
-              className="fw-700 bg-orange clr-white w-100 radius-md p-y-4 text-xl">
-              Rent this van
-            </Button>
-          </div>
-        </div>
+        <Suspense
+          fallback={<h1 className="text-3xl text-gray-800">Loading van...</h1>}>
+          <Await resolve={vanPromise.van}>{renderVanElement}</Await>
+        </Suspense>
       </div>
     </div>
   );

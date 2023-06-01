@@ -1,7 +1,7 @@
-import { useLoaderData } from "react-router-dom";
+import { useOutletContext } from "react-router-dom";
 
 const HostVanInfo = () => {
-  const { vans: van } = useLoaderData();
+  const { van } = useOutletContext();
 
   return (
     <div className="fs-5">

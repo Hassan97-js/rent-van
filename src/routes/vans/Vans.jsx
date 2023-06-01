@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { useSearchParams, useLoaderData, Await } from "react-router-dom";
 
 import { VanList, Button } from "../../components";
@@ -64,55 +65,59 @@ function Vans() {
   } = CLASSES;
 
   const clearFilterLink = typeFilter !== null && (
-    <Button
-      className="clr-gray text-decoration-underline"
-      onClick={() => handleFilterChange("type", null)}>
-      Clear filters
-    </Button>
+    <Button onClick={() => handleFilterChange("type", null)}>Clear filters</Button>
   );
+
+  const renderVanElements = (loadedVans) => {
+    const vans = typeFilter
+      ? loadedVans.filter((van) => {
+          const vanType = van.type.trim().toLowerCase();
+          const type = typeFilter.trim().toLowerCase();
+
+          return vanType === type;
+        })
+      : loadedVans;
+
+    return (
+      <>
+        <header className="mb-8">
+          <div className="flex items-center gap-8">
+            <div className="flex gap-3 fw-semibold">
+              <Button
+                className={`${BASE} ${DEFAULT} ${applyActiveVanTypeClass("simple")}`}
+                onClick={() => handleFilterChange("type", "simple")}>
+                Simple
+              </Button>
+
+              <Button
+                className={`${BASE} ${DEFAULT} ${applyActiveVanTypeClass("luxury")}`}
+                onClick={() => handleFilterChange("type", "luxury")}>
+                Luxury
+              </Button>
+
+              <Button
+                className={`${BASE} ${DEFAULT} ${applyActiveVanTypeClass("rugged")}`}
+                to="?type=rugged"
+                onClick={() => handleFilterChange("type", "rugged")}>
+                Rugged
+              </Button>
+            </div>
+            {clearFilterLink}
+          </div>
+        </header>
+
+        <VanList vans={vans} />
+      </>
+    );
+  };
 
   return (
     <div className="container flex flex-column p-y-16">
-      <header className="mb-8">
-        <h1 className="heading-xl mb-6 fw-700">Explore our van options</h1>
-
-        <div className="flex items-center gap-8">
-          <div className="flex gap-3 fw-semibold">
-            <Button
-              className={`${BASE} ${DEFAULT} ${applyActiveVanTypeClass("simple")}`}
-              onClick={() => handleFilterChange("type", "simple")}>
-              Simple
-            </Button>
-            <Button
-              className={`${BASE} ${DEFAULT} ${applyActiveVanTypeClass("luxury")}`}
-              onClick={() => handleFilterChange("type", "luxury")}>
-              Luxury
-            </Button>
-            <Button
-              className={`${BASE} ${DEFAULT} ${applyActiveVanTypeClass("rugged")}`}
-              to="?type=rugged"
-              onClick={() => handleFilterChange("type", "rugged")}>
-              Rugged
-            </Button>
-          </div>
-          {clearFilterLink}
-        </div>
-      </header>
-
-      <Await resolve={vansPromise.vans}>
-        {(loadedData) => {
-          const vans = typeFilter
-            ? loadedData.vans.filter((van) => {
-                const vanType = van.type.trim().toLowerCase();
-                const type = typeFilter.trim().toLowerCase();
-
-                return vanType === type;
-              })
-            : loadedData.vans;
-
-          return <VanList vans={vans} />;
-        }}
-      </Await>
+      <h1 className="heading-xl mb-6 fw-700">Explore our van options</h1>
+      <Suspense
+        fallback={<h1 className="text-3xl text-gray-800">Loading vans...</h1>}>
+        <Await resolve={vansPromise.vans}>{renderVanElements}</Await>
+      </Suspense>
     </div>
   );
 }
